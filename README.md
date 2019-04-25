@@ -6,7 +6,7 @@
 
 What things you need to install the software and how to install them
 
-[R Language](https://cran.r-project.org/bin/windows/base/)
+[R](https://cran.r-project.org/bin/windows/base/)
 
 [R Studio](https://www.rstudio.com/products/rstudio/download/#download)
 
@@ -37,47 +37,67 @@ A step by step series of examples that tell you how to get a development env run
 
 ### Features of This Program
 
-#### 1. Apply Master Program By Inputting Your Data, 
+#### 1. Apply Master Program By Inputting Your Data
+
+In this program you can test for graduate admission with your data(GRE Score, TOEFL Score, CGPA, University Rating, Statement of Purpose(SOP), Letter of Recommendation(LOR), Research, Chance of Admit) by inputing to this program.
 
 ![inputData](https://github.com/santosonicholas/Graduate-Admission-Operation-Research-/blob/master/image/inputData.gif)
 
 
 #### 2. View the Result of Your Input Data
 
+The Result Tab is for showing the result of your data whether are you qualified for applying master degree or not.
+
+We have done some research online to find the minimum standard score for applying for a masters degree, which we have taken from the UCLA miniumum standard and used it in our program (you can see the minimum standard score in the *Minimum Score Criteria* tab).
+
 ![viewResult](https://github.com/santosonicholas/Graduate-Admission-Operation-Research-/blob/master/image/viewResult.gif)
 
 
 #### 3. View Your Input Data as a Graphical Plot
+
+We have added bar plots which user can select from, which displays the user inputted data and the minimum score per category. There is also a line chart which displays all the inputted score and minimum score in a line.
 
 ![viewPlot](https://github.com/santosonicholas/Graduate-Admission-Operation-Research-/blob/master/image/viewPlot.gif)
 
 
 #### 4. Analysis Kaggle Graduate Admission Problem
 
+In this program we analyze and predict the data that are given in the link down below.
 [Kaggle Link](https://www.kaggle.com/mohansacharya/graduate-admissions)
 
 #### 5. Training the Data With the Linear Regression, Random Forest, and Decission Tree Approach
+
+We train the data to find the error and make a prediction.
 
 ![approach](https://github.com/santosonicholas/Graduate-Admission-Operation-Research-/blob/master/image/approach.gif)
 
 #### 6. View the Error Data
 
+In this tab you can see the error data table which includes Mean Error(ME), Root Mean Square ERROR(RMSE), MEAN ABSOLUTE ERROR(MAE), MEAN PERCENTAGE ERROR(MPE), MEAN ABSOLUTE PERCENTAGE ERROR(MAPE).
+
 ![errorTable](https://github.com/santosonicholas/Graduate-Admission-Operation-Research-/blob/master/image/errorTable.PNG)
 
 #### 7. Predict the Data
 
+You can see the prediction of the testing data in the picture down below.
+
 ![predictTable1](https://github.com/santosonicholas/Graduate-Admission-Operation-Research-/blob/master/image/predictTable1.PNG)
 
+You can see the prediction of the training data in the picture down below.
 
 ![predictTable2](https://github.com/santosonicholas/Graduate-Admission-Operation-Research-/blob/master/image/predictTable2.PNG)
 
 
-### Code Exlpanation
+### Code Explanation
+
+First you need to import the sample data set.
 
 *Import Data*
 ```R
 original <- read.csv("./Admission_Predict.csv")
 ```
+
+In this segment our program needs to make a lot of variable to hold the data sets, because our program needs data sets to be applied differently from each other.
 
 *Make Variable to Hold the Data*
 ```R
@@ -91,6 +111,14 @@ df2 = original
 user = original
 user$Serial.No.= NULL
 ```
+
+For this data set we assume that if the chance of admit is lower than 0.5 we assume it as 0, otherwise if the chance of admit is greater than 0.5 we assume it as 1 (this will help to get predicted more easily).
+
+```R
+df2$Chance.of.Admit=ifelse(df2$Chance.of.Admit>0.5,1,0)
+```
+
+For training and testing our data sets, we split the data into 70%(Train) and 30%(Test).
 
 *Split Data Into Training and Data Sets*
 ```R
@@ -109,6 +137,8 @@ sampleData3 <- sample(nrow(df2), 0.7*nrow(df2), replace = FALSE)
 trainPredict <- df2[sampleData3,]
 testPredict <- df2[-sampleData3,]
 ```
+
+In this section we focus on finding the smallest error from the 3 approach we are using **(linear regression, random forest, decission tree)**.
 
 *Linear Regression Approach*
 ```R
@@ -143,8 +173,9 @@ dtMae <- mae(model3, data = df1)
 
 ![mae](https://github.com/santosonicholas/Graduate-Admission-Operation-Research-/blob/master/image/mae.PNG)
 
+We can see that Random Forest Approach have the smallest error compared to the 2 other approach, now that we know which approach have the smallest error, we take the **random forest** approach model and use the model for the testing data set.
 
-Because Random Forest MAE is Smaller than MAE Other Approach, I Use Random Forest MAE Training Data For Testing Data
+Next we predict the data with data testing, but before that we need to find the error table first to see what is the error we have.
 
 *Predict For Error Table*
 ```R
@@ -159,6 +190,8 @@ errorTable <- accuracy(pred, test$Chance.of.Admit)
 ***Error Table Output***
 
 ![errorTableSyntax](https://github.com/santosonicholas/Graduate-Admission-Operation-Research-/blob/master/image/errorTableSyntax.PNG)
+
+In this step we want to show the predicted data sample to know if this data sets are truly correct or false with the confusion matrix.
 
 *Predict Table Testing*
 ```R
@@ -190,13 +223,13 @@ predictTable2 <- table(PREDICTED = pred5, ACTUAL = trainPredict$Chance.of.Admit)
 
 ## Conclusion
 
-The conclusion is every approach such as linear regression, random forest, decission tree, etc, are different with each other, but luckily this program are better using with the Random Forest approach because the error is less than linear regression and decission tree.
+The conclusion is that every approach such as linear regression, random forest, decision tree, etc, are different with each other, but luckily this program works best with the Random Forest approach because the error is the least.
 
-The result of the prediction is already shown at explanation above, we can conclude that 90% data is trully correct with the 10% error of the data, error means there is no synchronization between the data and the prediction.
+The result of the prediction is already shown at explanation above, we can conclude that 90% data is truly correct with the 10% error of the data, the error means there that is no synchronization between the data and the prediction.
 
 ## Built With
 
-* [R Language](https://cran.r-project.org/bin/windows/base/)
+* [R](https://cran.r-project.org/bin/windows/base/)
 * [R Studio](https://www.rstudio.com/products/rstudio/download/#download)
 
 ## Authors
