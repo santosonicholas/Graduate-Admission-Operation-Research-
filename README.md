@@ -10,7 +10,7 @@ What things you need to install the software and how to install them
 
 [R Studio](https://www.rstudio.com/products/rstudio/download/#download)
 
-### Library are used for this program
+### Libraries used
 
 ```
 library(shiny)
